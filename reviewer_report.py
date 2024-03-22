@@ -55,8 +55,6 @@ for reviewer_file_info in reviewer_files:
     reviewer_rows = [(reviewer_file_info["reviewer"], row) for row in csv_reader]
     rows += reviewer_rows
 
-print(rows)
-
 # load json
 row_errors = 0
 review_jsons = []
@@ -87,6 +85,8 @@ for example_json in review_jsons:
 for example_json in review_jsons:
     example_json["qid_count"] = qid_counts[example_json["qid"]]
     example_json["example_id_count"] = example_id_counts[example_json["example_id"]]
+
+print(qid_counts)
 
 # apply score_conversion
 benchmark = sys.argv[1]
