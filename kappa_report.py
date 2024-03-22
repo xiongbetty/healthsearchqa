@@ -7,14 +7,14 @@ from random import shuffle
 from statistics import mean
 
 # reviewers
-reviewers = ["joel", "vijaytha", "vivek"]
+reviewers = ["reviewer_1", "reviewer_2"]
 
 # load answer id mappings
 answer_mappings = json.loads(open("answer_mappings.json").read())
 
 # list of reviewer files
 reviewer_files = [
-    {"reviewer": reviewer, "file_path": f"reviews_{reviewer}.csv"}
+    {"reviewer": reviewer, "file_path": f"tests/{reviewer}.csv"}
     for reviewer in reviewers
 ]
 
