@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import csv
-import os
 import sys
 
-from utils import row2json
+from utils import get_reviewer_csv_files, row2json
 
 # constants
 
@@ -54,14 +53,6 @@ score_descriptions = {
 }
 
 # functions
-
-def get_reviewer_csv_files(folder_path):
-    csv_files = []
-    for file in os.listdir(folder_path):
-        file_path = os.path.join(folder_path, file)
-        if os.path.isfile(file_path) and file.endswith(".csv"):
-            csv_files.append({"reviewer": file, "file_path": file_path})
-    return csv_files
 
 def load_data(reviewer_files):
     # load rows

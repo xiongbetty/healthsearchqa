@@ -1,4 +1,13 @@
 import json
+import os
+
+def get_reviewer_csv_files(folder_path):
+    csv_files = []
+    for file in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file)
+        if os.path.isfile(file_path) and file.endswith(".csv"):
+            csv_files.append({"reviewer": file, "file_path": file_path})
+    return csv_files
 
 def row2json(reviewer, row):
     answer_mappings = json.loads(open("answer_mappings.json").read())
@@ -34,4 +43,30 @@ def row2json(reviewer, row):
         assert benchmark_score >= 1
         assert benchmark_score <= 5
         new_json[benchmark] = benchmark_score
-    return new_json                                                                                           
+    return new_json       
+
+def load_data(reviewer_files):
+    # load rows
+    rows = []
+    for reviewer_file_info in reviewer_files:
+        csv_file = open(reviewer_file_info["file_path"])
+        csv_reader = csv.reader(csv_file, delimiter=",", quotechar='"')
+        reviewer_rows = [(reviewer_file_info["reviewer"], row) for row in csv_reader]
+        rows += reviewer_rows
+
+    # load json
+    row_errors = 0
+    review_jsons = []
+    for idx, row in enumerate(rows):
+        try:
+            assert len(row[1]) >= 7
+            row_json = row2json(row[0], row[1])
+            row_json["spreadsheet_idx"] = idx + 1
+            review_jsons.append(row_json)
+        except:
+            row_errors += 1
+    
+    # filter json
+    review_jsons = [row_json for row_json in review_jsons if (row_json["model"] == model or model == "all")]
+    
+    return review_jsons                                                                                    
