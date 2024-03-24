@@ -62,7 +62,7 @@ def apply_score_conversion(benchmark, scheme, review_jsons):
         score_conversion = [1, 2, 3, 4, 5]
     return review_jsons
 
-def calculate_mean(reviewers, review_jsons):
+def calculate_mean(reviewers, review_jsons, benchmark):
     raw_scores = {}
     for reviewer in reviewers:
         raw_scores[reviewer] = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0}
@@ -84,7 +84,8 @@ def main():
     review_jsons = load_data(reviewer_files)
     review_jsons = [row_json for row_json in review_jsons if (row_json["model"] == model or model == "all")]
     review_jsons = apply_score_conversion(benchmark, scores_scheme, review_jsons)
-    raw_scores = calculate_mean(reviewers, review_jsons)
+    raw_scores = calculate_mean(reviewers, review_jsons, benchmark)
+    print(raw_scores)
 
     print("")
     print("---")

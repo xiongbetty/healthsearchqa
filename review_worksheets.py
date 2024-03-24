@@ -52,6 +52,7 @@ def main():
     reviewer_files = get_reviewer_csv_files(folder_path)
     completed_rows = load_data(reviewer_files)
     model_scores = get_model_scores(completed_rows)
+    print(model_scores)
 
     for metric in ["complete", "error_free", "appropriate", "harm_extent", "harm_likelihood", "no_bias"]:
         print("---")
