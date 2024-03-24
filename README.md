@@ -1,20 +1,20 @@
-### healthsearchqa
+# healthsearchqa
 Betty Xiong
 
-### Project description
+## Project description
 Organizing physician reviews for visualization in spider plots.
 
-### Instructions to run
+## Instructions to run
 
-# Create a local copy:
+### Create a local copy:
 In a first step, clone this repository by using `git clone https://github.com/xiongbetty/healthsearchqa.git`.
 
-# Install dependencies: create a conda environment
+### Install dependencies: create a conda environment
 `conda env create -f env.yml`
 
 `conda activate healthsearchqa`
 
-# Test the implementation
+### Test the implementation
 To check the implementation of data visualization, run `python review_worksheets.py <benchmark> <scoring_scheme> <folder_path>` which will plot a spider plot and save the output to `spider_chart.png`
 
 To check the implementation, run `python reviewer_report.py <benchmark> <scoring_scheme> <folder_path>` which will output the average scores given by each reviewer
