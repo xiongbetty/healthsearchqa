@@ -1,3 +1,4 @@
+import csv 
 import json
 import os
 
@@ -43,7 +44,7 @@ def row2json(reviewer, row):
         assert benchmark_score >= 1
         assert benchmark_score <= 5
         new_json[benchmark] = benchmark_score
-    return new_json       
+    return new_json
 
 def load_data(reviewer_files):
     # load rows
@@ -66,7 +67,4 @@ def load_data(reviewer_files):
         except:
             row_errors += 1
     
-    # filter json
-    review_jsons = [row_json for row_json in review_jsons if (row_json["model"] == model or model == "all")]
-    
-    return review_jsons                                                                                    
+    return review_jsons

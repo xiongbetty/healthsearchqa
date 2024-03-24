@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-import csv
 import sys
 
-from utils import get_reviewer_csv_files, row2json
+from utils import get_reviewer_csv_files, load_data
 
 # constants
 
@@ -54,32 +53,6 @@ score_descriptions = {
 
 # functions
 
-def load_data(reviewer_files):
-    # load rows
-    rows = []
-    for reviewer_file_info in reviewer_files:
-        csv_file = open(reviewer_file_info["file_path"])
-        csv_reader = csv.reader(csv_file, delimiter=",", quotechar='"')
-        reviewer_rows = [(reviewer_file_info["reviewer"], row) for row in csv_reader]
-        rows += reviewer_rows
-
-    # load json
-    row_errors = 0
-    review_jsons = []
-    for idx, row in enumerate(rows):
-        try:
-            assert len(row[1]) >= 7
-            row_json = row2json(row[0], row[1])
-            row_json["spreadsheet_idx"] = idx + 1
-            review_jsons.append(row_json)
-        except:
-            row_errors += 1
-    
-    # filter json
-    review_jsons = [row_json for row_json in review_jsons if (row_json["model"] == model or model == "all")]
-    
-    return review_jsons
-
 def apply_score_conversion(benchmark, scheme, review_jsons):
     score_conversion = [int(x) for x in scheme.split(",")]
     if score_conversion and len(score_conversion) == 5:
@@ -109,6 +82,7 @@ def main():
     reviewer_files = get_reviewer_csv_files(folder_path)
     reviewers = [d["reviewer"] for d in reviewer_files if "reviewer" in d]
     review_jsons = load_data(reviewer_files)
+    review_jsons = [row_json for row_json in review_jsons if (row_json["model"] == model or model == "all")]
     review_jsons = apply_score_conversion(benchmark, scores_scheme, review_jsons)
     raw_scores = calculate_mean(reviewers, review_jsons)
 
